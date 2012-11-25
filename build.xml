@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Grass" default="deploy" basedir=".">
+	<description>
+		Grass build xml.
+	</description>
+
+	<property name="debug" value="off" />
+	<property name="optimize" value="on" />
+	<property name="deprecation" value="on" />
+
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="webroot.dir" value="${basedir}\WebContent" />
+	<property name="webinf.dir" value="${webroot.dir}\WEB-INF" />
+	<property name="war.dir" value="${webroot.dir}\war" />
+	<property name="lib.dir" value="${webinf.dir}\lib" />
+	<property name="build.dir" value="WebContent\WEB-INF/classes" />
+	<property name="jboos.deploy"
+		value="E:\jboss\server\default\deploy" />
+	
+	<path id="master-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement path="${build.dir}" />
+	</path>
+
+	<!-- make dir and copy java source file-->
+	<target name="init">		
+		<mkdir dir="${war.dir}" />
+	</target>
+	
+	<!-- clean up classes-->
+	<target name="cleanup_class" depends="init">
+		<delete dir="${build.dir}">
+			<include name="**/*.*"/>
+		</delete>
+	</target>
+	
+	<!-- compile -->
+	<target name="compile" depends="cleanup_class">
+		<javac debug="true" destdir="${build.dir}" includeAntRuntime="false">
+			<compilerarg line="-encoding UTF-8 " />
+			<classpath refid="master-classpath" />
+			<src path="${src.dir}" />
+		</javac>
+	</target>
+
+	<!-- copy all resouce file from src and remove java source file -->
+	<target name="copy_resouce" depends="compile">
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>		
+	</target>
+
+	<!-- make war package -->
+	<target name="war" depends="copy_resouce">
+		<war destfile="${war.dir}/grass.war"
+			webxml="${webinf.dir}/web.xml">
+			<fileset dir="${webroot.dir}">
+				<exclude name="**/*.war"/>
+			</fileset>
+		</war>
+	</target>
+
+	<!-- deploy the war package to JBoss application server -->
+	<target name="deploy" depends="war">
+		<delete file="${jboos.deploy}/grass.war" />
+		<copy todir="${jboos.deploy}" file="${war.dir}/grass.war" />
+
+		<delete dir="${war.dir}" />
+	</target>
+		
+</project>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true" package="com.gcrm.domain">
+ <class dynamic-insert="true" dynamic-update="true"
+  name="com.gcrm.domain.Call" table="call">
+  <id column="id" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="subject" column="subject" type="string" not-null="true"/>   
+  <many-to-one name="direction"
+			class="CallDirection" column="direction" cascade="save-update"/>	  
+  <many-to-one name="status"
+			class="CallStatus" column="status" cascade="save-update"/>	  
+  <property name="start_date" column="start_date" type="java.util.Date" />
+  <property name="related_object" column="related_object" type="string" />    
+  <property name="related_record" column="related_record" type="java.lang.Integer" />  
+  <property name="reminder_pop" column="reminder_pop" type="boolean" />
+  <property name="reminder_email" column="reminder_email" type="boolean" />
+  <many-to-one name="reminder_option_pop"
+			class="ReminderOption" column="reminder_option_pop" cascade="save-update"/>
+  <many-to-one name="reminder_option_email"
+			class="ReminderOption" column="reminder_option_email" cascade="save-update"/>  			  
+  <property name="description" column="description" type="string" />    
+  <many-to-one name="assigned_to"
+			class="User" column="assigned_to" cascade="save-update"/>
+  <many-to-one name="created_by"
+			class="User" column="created_by" cascade="save-update"/>
+  <many-to-one name="updated_by"
+			class="User" column="updated_by" cascade="save-update"/>
+  <property name="created_on" column="created_on" type="java.util.Date" />
+  <property name="updated_on" column="updated_on" type="java.util.Date" />
+  <set cascade="all" name="leads" table="call_lead">   
+     <key column="call_id" />   
+     <many-to-many class="com.gcrm.domain.Lead"  column="lead_id" />
+  </set> 
+  <set cascade="all" name="users" table="call_user">   
+     <key column="call_id" />   
+     <many-to-many class="com.gcrm.domain.User"  column="user_id" />
+  </set> 
+  <set cascade="all" name="contacts" table="call_contact">   
+     <key column="call_id" />   
+     <many-to-many class="com.gcrm.domain.Contact"  column="contact_id" />
+  </set>     				     			    
+ </class>
+</hibernate-mapping>

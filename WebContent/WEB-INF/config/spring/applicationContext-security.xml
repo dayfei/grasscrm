@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <security:debug />
+
+    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/images/**" security="none"/>
+    <security:http pattern="/themes/**" security="none"/>
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/jsp/login.jsp" security="none"/>
+    <security:http pattern="/jsp/combobox_filter_op.json" security="none"/>
+
+	<security:http auto-config="true"
+    	 access-decision-manager-ref="myAccessDecisionManager"	     
+         access-denied-page="/jsp/403.jsp"
+         entry-point-ref="authenticationProcessingFilterEntryPoint">
+         <security:custom-filter ref="loginFilter" before="FORM_LOGIN_FILTER"  />
+         <security:custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
+         <security:intercept-url pattern="/jsp/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>   
+       	 <security:form-login login-page="/jsp/login.jsp" authentication-failure-url="/jsp/login.jsp?login_error=1"
+       	 	default-target-url="/jsp/crm/listAccountPage.action"/>
+       	 	<security:logout invalidate-session="true" logout-success-url="/jsp/login.jsp" logout-url="/j_spring_security_logout"/>
+    </security:http>    
+
+    <bean id="loginFilter"
+        class="com.gcrm.security.AuthenticationFilter">
+        <!-- 处理登录 -->
+        <property name="filterProcessesUrl" value="/j_spring_security_check"></property>
+        <property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler"></property>
+        <property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler"></property>
+        <property name="authenticationManager" ref="myAuthenticationManager"></property>
+    </bean>
+ 
+     <bean id="securityFilter" class="com.gcrm.security.SecurityFilter">
+        <!-- 用户拥有的权限 -->
+        <property name="authenticationManager" ref="myAuthenticationManager" />
+        <!-- 用户是否拥有所请求资源的权限 -->
+        <property name="accessDecisionManager" ref="myAccessDecisionManager" />
+        <!-- 资源与权限对应关系 -->
+        <property name="securityMetadataSource" ref="mySecurityMetadataSource" />
+    </bean>
+       
+    <bean id="loginLogAuthenticationSuccessHandler"
+        class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <property name="defaultTargetUrl" value="/jsp/crm/listAccountPage.action"></property>
+    </bean>
+    <bean id="simpleUrlAuthenticationFailureHandler"
+        class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/jsp/login.jsp?login_error=1"></property>
+    </bean>
+    
+    <!-- 实现了UserDetailsService的Bean -->
+    <security:authentication-manager alias="myAuthenticationManager">
+        <security:authentication-provider user-service-ref="myUserDetailServiceImpl" />
+    </security:authentication-manager>
+    
+    <bean id="myAccessDecisionManager" class="com.gcrm.security.UrlAccessDecisionManager"></bean>
+    <bean id="mySecurityMetadataSource" class="com.gcrm.security.SecurityMetadataSource">
+        <constructor-arg name="permissionService" ref="baseService"></constructor-arg>
+    </bean>
+    <bean id="myUserDetailServiceImpl" class="com.gcrm.security.UserDetailsServiceImpl">
+      <property name="userService" ref="userService" />
+    </bean>        
+
+    <bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/jsp/login.jsp"></property>
+    </bean>   
+
+  <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+    <property name="authenticationEntryPoint" ref="authenticationProcessingFilterEntryPoint"/>
+  </bean>
+</beans>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package namespace="/jsp/system" name="security" extends="default">
+      	<action name="listUser" class="listUserAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listUserPage">
+    	  <result type="redirect">/jsp/system/listUser.jsp</result>
+        </action>
+
+    	<action name="selectUser" class="listUserAction" method="select">
+    	  <result type="redirect">/jsp/system/listUser.jsp</result>
+        </action>
+        
+    	<action name="unselectUser" class="listUserAction" method="unselect">
+    	  <result type="redirect">/jsp/system/listUser.jsp</result>
+        </action>
+
+    	<action name="selectUserPage" class="listUserAction" method="selectPage">
+    	  <result>/jsp/system/selectUser.jsp</result>
+        </action>
+        
+         <action name="exportUser" class="listUserAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="deleteUser" class="listUserAction" method="delete">
+        	<result name="input">/jsp/system/listUser.jsp</result>
+			<result>/jsp/system/listUser.jsp</result>            	  
+        </action>
+        
+         <action name="copyUser" class="listUserAction" method="copy">
+        	<result name="input">/jsp/system/listUser.jsp</result>
+			<result>/jsp/system/listUser.jsp</result>            	  
+        </action>
+        
+         <action name="importUser" class="listUserAction" method="importCSV">
+        	<result name="input">/jsp/system/uploadUser.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+                                
+        <action name="editUser" class="editUserAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/system/editUser.jsp</result>
+        </action>
+                        
+        <action name="saveUser" class="editUserAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/system/editUser.jsp</result>          
+    	  <result type="redirect">/jsp/system/listUser.jsp</result>
+        </action>
+        
+      	<action name="listRole" class="listRoleAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listRolePage">
+    	  <result type="redirect">/jsp/system/listRole.jsp</result>
+        </action>
+
+         <action name="exportRole" class="listRoleAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="deleteRole" class="listRoleAction" method="delete">
+        	<result name="input">/jsp/system/listRole.jsp</result>
+			<result>/jsp/system/listRole.jsp</result>            	  
+        </action>
+        
+         <action name="copyRole" class="listRoleAction" method="copy">
+        	<result name="input">/jsp/system/listRole.jsp</result>
+			<result>/jsp/system/listRole.jsp</result>            	  
+        </action>
+        
+         <action name="importRole" class="listRoleAction" method="importCSV">
+        	<result name="input">/jsp/system/uploadRole.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+                                
+        <action name="editRole" class="editRoleAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/system/editRole.jsp</result>
+        </action>
+                        
+        <action name="saveRole" class="editRoleAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/system/editRole.jsp</result>          
+    	  <result type="redirect">/jsp/system/resetPermissionMap.action</result>
+        </action>
+    	
+    	<action name="resetPermissionMap" class="editRoleAction" method="resetPermissionMap">
+    	  <result type="redirect">/jsp/system/listRole.jsp</result>
+        </action>
+                       
+    	<action name="listPermission" class="permissionAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listPermissionPage">
+    	  <result type="redirect">/jsp/system/listPermission.jsp</result>
+        </action>
+                
+        <action name="savePermission" class="permissionAction" method="save">
+    	  <result name="input">/jsp/system/listPermission.jsp</result>
+    	  <result type="redirect">/jsp/system/listPermission.jsp</result>
+        </action>
+        
+        <action name="deletePermission" class="permissionAction" method="delete">
+			<result type="redirect">/jsp/system/listPermission.jsp</result>
+        </action>    
+        
+        <action name="accessDeniedPage">
+    	  <result>/jsp/system/accessDenied.jsp</result>
+        </action>
+  </package>      
+    
+</struts>

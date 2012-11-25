@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true" package="com.gcrm.domain">
+ <class dynamic-insert="true" dynamic-update="true"
+  name="com.gcrm.domain.TargetList" table="targetList">
+  <id column="id" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="name" column="name" type="string" not-null="true"/>  
+  <many-to-one name="type"
+			class="TargetListType" column="type" cascade="save-update"/>   
+  <property name="description" column="description" type="string" />  
+  <many-to-one name="assigned_to"
+			class="User" column="assigned_to" cascade="save-update"/>
+  <many-to-one name="updated_by"
+			class="User" column="updated_by" cascade="save-update"/>
+  <property name="created_on" column="created_on" type="java.util.Date" />
+  <property name="updated_on" column="updated_on" type="java.util.Date" />
+  <set cascade="all" name="targets" table="targetList_target">   
+     <key column="targetList_id" />   
+     <many-to-many class="com.gcrm.domain.Target"  column="target_id" />
+  </set>  
+  <set cascade="all" name="contacts" table="targetList_contact">   
+     <key column="targetList_id" />   
+     <many-to-many class="com.gcrm.domain.Contact"  column="contact_id" />
+  </set>
+  <set cascade="all" name="leads" table="targetList_lead">   
+     <key column="targetList_id" />   
+     <many-to-many class="com.gcrm.domain.Lead"  column="lead_id" />
+  </set>
+  <set cascade="all" name="users" table="user_target">   
+     <key column="targetList_id" />   
+     <many-to-many class="com.gcrm.domain.User"  column="user_id" />
+  </set>  
+  <set cascade="all" name="accounts" table="targetList_account">   
+     <key column="targetList_id" />   
+     <many-to-many class="com.gcrm.domain.Account"  column="account_id" />
+  </set>       				     			    
+ </class>
+</hibernate-mapping>

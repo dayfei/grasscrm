@@ -1,0 +1,95 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="contact" extends="default">
+      	<action name="listContact" class="listContactAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="selectContact" class="listContactAction" method="select">
+    	  <result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action>
+        
+    	<action name="unselectContact" class="listContactAction" method="unselect">
+    	  <result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action>
+                
+    	<action name="selectContactPage" class="listContactAction" method="selectPage">
+    	  <result>/jsp/crm/selectContact.jsp</result>
+        </action>
+        
+      	<action name="filterContact" class="listContactAction" method="filter">
+    	  <result name="success" type="json"></result>
+        </action>
+        
+    	<action name="filterContactPage" class="listContactAction" method="filterPage">
+    	  <result>/jsp/crm/filterContact.jsp</result>
+        </action>
+         
+      	<action name="filterContactOpportunity" class="listContactAction" method="filterContactOpportunity">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterContactOpportunityPage" class="listContactAction" method="filterPage">
+    	  <result>/jsp/crm/filterContactOpportunity.jsp</result>
+        </action>
+
+      	<action name="filterContactLead" class="listContactAction" method="filterContactLead">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterContactLeadPage" class="listContactAction" method="filterPage">
+    	  <result>/jsp/crm/filterContactLead.jsp</result>
+        </action>
+                                
+    	<action name="listContactPage">
+    	  <result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action>
+        
+         <action name="exportContact" class="listContactAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="importContact" class="listContactAction" method="importCSV">
+        	<result name="input">/jsp/crm/uploadContact.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>        
+
+         <action name="copyContact" class="listContactAction" method="copy">
+        	<result name="input">/jsp/crm/listContact.jsp</result>
+			<result>/jsp/crm/listContact.jsp</result>            	  
+        </action>
+                        
+        <action name="editContact" class="editContactAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editContact.jsp</result>
+        </action>
+                        
+        <action name="saveContact" class="editContactAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editContact.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action>
+                
+        <action name="deleteContact" class="listContactAction" method="delete">
+			<result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action>  
+        
+        <action name="removeContact" class="listContactAction" method="remove">
+			<result type="redirect">/jsp/crm/listContact.jsp</result>
+        </action> 
+  </package>      
+    
+</struts>

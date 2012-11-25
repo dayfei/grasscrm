@@ -1,0 +1,95 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="case" extends="default">
+      	<action name="listCase" class="listCaseAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listCasePage">
+    	  <result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action>
+  
+    	<action name="selectCase" class="listCaseAction" method="select">
+    	  <result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action>
+        
+    	<action name="unselectCase" class="listCaseAction" method="unselect">
+    	  <result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action>
+                
+    	<action name="selectCasePage" class="listCaseAction" method="selectPage">
+    	  <result>/jsp/crm/selectCase.jsp</result>
+        </action>
+          
+      	<action name="filterCase" class="listCaseAction" method="filter">
+    	  <result name="success" type="json"></result>
+        </action>
+        
+    	<action name="filterCasePage" class="listCaseAction" method="filterPage">
+    	  <result>/jsp/crm/filterCase.jsp</result>
+        </action>
+              
+      	<action name="filterCaseContact" class="listCaseAction" method="filterCaseContact">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterCaseContactPage" class="listCaseAction" method="filterPage">
+    	  <result>/jsp/crm/filterCaseContact.jsp</result>
+        </action>
+        
+      	<action name="filterCaseDocument" class="listCaseAction" method="filterCaseDocument">
+    	  <result name="success" type="json"></result>
+        </action>
+                
+    	<action name="filterCaseDocumentPage" class="listCaseAction" method="filterPage">
+    	  <result>/jsp/crm/filterCaseDocument.jsp</result>
+        </action>        
+                        
+         <action name="exportCase" class="listCaseAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="importCase" class="listCaseAction" method="importCSV">
+        	<result name="input">/jsp/crm/uploadCase.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+
+         <action name="copyCase" class="listCaseAction" method="copy">
+        	<result name="input">/jsp/crm/listCase.jsp</result>
+			<result>/jsp/crm/listCase.jsp</result>            	  
+        </action>
+                                
+        <action name="editCase" class="editCaseAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editCase.jsp</result>
+        </action>
+                        
+        <action name="saveCase" class="editCaseAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editCase.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action>
+                
+        <action name="deleteCase" class="ListCaseAction" method="delete">
+			<result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action>    
+        
+        <action name="removeCase" class="ListCaseAction" method="remove">
+			<result type="redirect">/jsp/crm/listCase.jsp</result>
+        </action> 
+  </package>      
+    
+</struts>

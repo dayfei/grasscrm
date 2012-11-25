@@ -1,0 +1,55 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="campaign" extends="default">
+     	<action name="listCampaign" class="listCampaignAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listCampaignPage">
+    	  <result type="redirect">/jsp/crm/listCampaign.jsp</result>
+        </action>
+
+         <action name="exportCampaign" class="listCampaignAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="importCampaign" class="listCampaignAction" method="importCSV">
+        	<result name="input">/jsp/crm/uploadCampaign.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+
+         <action name="copyCampaign" class="listCampaignAction" method="copy">
+        	<result name="input">/jsp/crm/listCampaign.jsp</result>
+			<result>/jsp/crm/listCampaign.jsp</result>            	  
+        </action>
+                                
+        <action name="editCampaign" class="editCampaignAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editCampaign.jsp</result>
+        </action>
+                        
+        <action name="saveCampaign" class="editCampaignAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editCampaign.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listCampaign.jsp</result>
+        </action>
+        
+        <action name="deleteCampaign" class="ListCampaignAction" method="delete">
+			<result type="redirect">/jsp/crm/listCampaign.jsp</result>
+        </action>  
+  </package>      
+    
+</struts>

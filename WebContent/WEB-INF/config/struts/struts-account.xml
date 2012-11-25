@@ -1,0 +1,92 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="account" extends="default">
+      	<action name="listAccount" class="listAccountAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+      	<action name="listAccountFull" class="listAccountAction" method="listFull">
+    	  <result name="success" type="json"></result>
+        </action>
+        
+    	<action name="listAccountPage">
+    	  <result type="redirect">/jsp/crm/listAccount.jsp</result>
+        </action>
+
+    	<action name="selectAccount" class="listAccountAction" method="select">
+    	  <result type="redirect">/jsp/crm/listAccount.jsp</result>
+        </action>
+        
+    	<action name="unselectAccount" class="listAccountAction" method="unselect">
+    	  <result type="redirect">/jsp/crm/listAccount.jsp</result>
+        </action>
+
+    	<action name="selectAccountPage" class="listAccountAction" method="selectPage">
+    	  <result>/jsp/crm/selectAccount.jsp</result>
+        </action>
+        
+      	<action name="filterAccount" class="listAccountAction" method="filter">
+    	  <result name="success" type="json"></result>
+        </action>
+        
+    	<action name="filterAccountPage" class="listAccountAction" method="filterPage">
+    	  <result>/jsp/crm/filterAccount.jsp</result>
+        </action>
+        
+      	<action name="filterAccountDocument" class="listAccountAction" method="filterAccountDocument">
+    	  <result name="success" type="json"></result>
+        </action>
+                
+    	<action name="filterAccountDocumentPage" class="listAccountAction" method="filterPage">
+    	  <result>/jsp/crm/filterAccountDocument.jsp</result>
+        </action>
+                
+         <action name="exportAccount" class="listAccountAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="deleteAccount" class="listAccountAction" method="delete">
+        	<result name="input">/jsp/crm/listAccount.jsp</result>
+			<result>/jsp/crm/listAccount.jsp</result>            	  
+        </action>
+        
+        <action name="removeAccount" class="listAccountAction" method="remove">
+			<result type="redirect">/jsp/crm/listAccount.jsp</result>
+        </action>         
+        
+         <action name="copyAccount" class="listAccountAction" method="copy">
+        	<result name="input">/jsp/crm/listAccount.jsp</result>
+			<result>/jsp/crm/listAccount.jsp</result>            	  
+        </action>
+        
+         <action name="importAccount" class="listAccountAction" method="importCSV">
+        	<result name="input">/jsp/crm/uploadAccount.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+                                
+        <action name="editAccount" class="editAccountAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editAccount.jsp</result>
+        </action>
+                        
+        <action name="saveAccount" class="editAccountAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editAccount.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listAccount.jsp</result>
+        </action>  
+  </package>      
+    
+</struts>

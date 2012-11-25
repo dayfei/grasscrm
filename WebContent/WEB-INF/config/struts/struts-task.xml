@@ -1,0 +1,68 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="task" extends="default">
+      	<action name="listTask" class="listTaskAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listTaskPage">
+    	  <result type="redirect">/jsp/crm/listTask.jsp</result>
+        </action>
+
+      	<action name="filterTask" class="listTaskAction" method="filter">
+    	  <result name="success" type="json"></result>
+        </action>
+        
+    	<action name="filterTaskPage" class="listTaskAction" method="filterPage">
+    	  <result>/jsp/crm/filterTask.jsp</result>
+        </action>
+        
+         <action name="exportTask" class="listTaskAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>  
+
+         <action name="deleteTask" class="listTaskAction" method="delete">
+        	<result name="input">/jsp/crm/listTask.jsp</result>
+			<result>/jsp/crm/listTask.jsp</result>            	  
+        </action>
+
+        <action name="removeTask" class="listTaskAction" method="remove">
+			<result type="redirect">/jsp/crm/listTask.jsp</result>
+        </action> 
+                
+         <action name="copyTask" class="listTaskAction" method="copy">
+        	<result name="input">/jsp/crm/listTask.jsp</result>
+			<result>/jsp/crm/listTask.jsp</result>            	  
+        </action>
+        
+         <action name="importTask" class="listTaskAction" method="importCSV">
+        	<result name="input">/jsp/crm/uploadTask.jsp</result>
+			<result>/jsp/crm/upload-success.jsp</result>            	  
+        </action>
+                                
+        <action name="editTask" class="editTaskAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editTask.jsp</result>
+        </action>
+                        
+        <action name="saveTask" class="editTaskAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editTask.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listTask.jsp</result>
+        </action>        
+  </package>      
+    
+</struts>

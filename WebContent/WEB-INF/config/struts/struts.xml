@@ -1,0 +1,49 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.configuration.xml.reload" value="false" />
+    <constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.custom.i18n.resources" value="MessageResources" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.il8n.reload" value="true"/>
+	<constant name="struts.ui.theme" value="simple"/>
+	<constant name="struts.locale" value="zh_CN" />
+    <include file="struts-default.xml"/>
+    <include file="/config/struts/struts-account.xml"/>
+    <include file="/config/struts/struts-call.xml"/>
+    <include file="/config/struts/struts-campaign.xml"/>
+    <include file="/config/struts/struts-case.xml"/>
+    <include file="/config/struts/struts-contact.xml"/>
+    <include file="/config/struts/struts-document.xml"/>
+    <include file="/config/struts/struts-lead.xml"/>
+    <include file="/config/struts/struts-meeting.xml"/>
+    <include file="/config/struts/struts-opportunity.xml"/>
+    <include file="/config/struts/struts-security.xml"/>
+    <include file="/config/struts/struts-system.xml"/>
+    <include file="/config/struts/struts-target.xml"/>
+    <include file="/config/struts/struts-targetList.xml"/>
+    <include file="/config/struts/struts-task.xml"/>
+
+    <package name="default" extends="struts-default,json-default">
+        <interceptors>
+            <interceptor
+                name="exceptionInterceptor"
+                class="com.gcrm.util.ExceptionInterceptor">
+            </interceptor>
+            <interceptor-stack name="defaultInterceptor">
+                <interceptor-ref name="exceptionInterceptor" />
+                <interceptor-ref name="defaultStack">
+                    <param name="validation.excludeMethods">
+                        prepareCampaign
+                    </param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="defaultInterceptor">
+        </default-interceptor-ref>
+    </package>
+          
+</struts>

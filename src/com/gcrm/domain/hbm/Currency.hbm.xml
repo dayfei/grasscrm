@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true" package="com.gcrm.domain">
+ <class dynamic-insert="true" dynamic-update="true"
+  name="com.gcrm.domain.Currency" table="currency">
+  <id column="id" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="name" column="name" type="string" not-null="true"/> 
+  <property name="code" column="code" type="string"/> 
+  <property name="rate" column="rate" type="java.lang.Double" />	
+  <property name="symbol" column="symbol" type="string"/> 
+  <property name="status" column="status" type="string"/>  
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true" package="com.gcrm.domain">
+ <class dynamic-insert="true" dynamic-update="true"
+  name="com.gcrm.domain.Document" table="document">
+  <id column="id" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="fileName" column="fileName" type="string" not-null="true"/> 
+  <property name="fileContent" column="fileContent" type="byte[]" not-null="true"/>   
+  <many-to-one name="status"
+			class="DocumentStatus" column="status" cascade="save-update"/>	  
+  <property name="name" column="name" type="string" not-null="true"/> 			
+  <property name="revision" column="revision" type="java.lang.Integer"/> 	  			
+  <property name="publish_date" column="publish_date" type="java.util.Date" />
+   <property name="expiration_date" column="expiration_date" type="java.util.Date" />
+  <many-to-one name="category"
+			class="DocumentCategory" column="category" cascade="save-update"/>	
+  <many-to-one name="sub_category"
+			class="DocumentSubCategory" column="sub_category" cascade="save-update"/>	
+  <property name="description" column="description" type="string" /> 
+  <many-to-one name="related_document"
+			class="Document" column="related_document" cascade="save-update"/>	  
+  <many-to-one name="assigned_to"
+			class="User" column="assigned_to" cascade="save-update"/>
+  <many-to-one name="created_by"
+			class="User" column="created_by" cascade="save-update"/>
+  <many-to-one name="updated_by"
+			class="User" column="updated_by" cascade="save-update"/>
+  <property name="created_on" column="created_on" type="java.util.Date" />
+  <property name="updated_on" column="updated_on" type="java.util.Date" /> 
+  <set cascade="all" name="accounts" table="account_document">   
+     <key column="document_id" />   
+     <many-to-many class="com.gcrm.domain.Account"  column="account_id" />
+  </set> 
+  <set cascade="all" name="contacts" table="contact_document">   
+     <key column="document_id" />   
+     <many-to-many class="com.gcrm.domain.Contact"  column="contact_id" />
+  </set> 
+  <set cascade="all" name="opportunities" table="opportunity_document">   
+     <key column="document_id" />   
+     <many-to-many class="com.gcrm.domain.Opportunity"  column="opportunity_id" />
+  </set>  
+  <set cascade="all" name="cases" table="case_document">   
+     <key column="document_id" />   
+     <many-to-many class="com.gcrm.domain.Case"  column="case_id" />
+  </set>       				     			    
+ </class>
+</hibernate-mapping>

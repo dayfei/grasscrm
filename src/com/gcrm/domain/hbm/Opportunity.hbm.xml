@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true" package="com.gcrm.domain">
+ <class dynamic-insert="true" dynamic-update="true"
+  name="com.gcrm.domain.Opportunity" table="opportunity">
+  <id column="id" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="name" column="name" type="string" not-null="true"/>      
+  <many-to-one name="account"
+			class="Account" column="account" cascade="save-update"/>	 
+  <many-to-one name="currency"
+			class="Currency" column="currency" cascade="save-update"/>	
+  <property name="expect_close_date" column="expect_close_date" type="java.util.Date" />											
+  <property name="opportunity_amount" column="opportunity_amount" type="string" />
+  <many-to-one name="type"
+			class="OpportunityType" column="type" cascade="save-update"/>  
+  <many-to-one name="sales_stage"
+			class="SalesStage" column="sales_stage" cascade="save-update"/>   
+  <many-to-one name="lead_source"
+			class="LeadSource" column="lead_source" cascade="save-update"/>    
+  <property name="probability" column="probability" type="java.lang.Double" />			
+  <many-to-one name="campaign"
+			class="Campaign" column="campaign" cascade="save-update"/>
+  <property name="next_step" column="next_step" type="string" />  
+  <property name="description" column="description" type="string" /> 
+  <many-to-one name="assigned_to"
+			class="User" column="assigned_to" cascade="save-update"/>	
+  <many-to-one name="created_by"
+			class="User" column="created_by" cascade="save-update"/>
+  <many-to-one name="updated_by"
+			class="User" column="updated_by" cascade="save-update"/>
+  <property name="created_on" column="created_on" type="java.util.Date" />
+  <property name="updated_on" column="updated_on" type="java.util.Date" />
+  <set cascade="all" name="contacts" table="contact_opportunity">   
+     <key column="opportunity_id" />   
+     <many-to-many class="com.gcrm.domain.Contact"  column="contact_id" />
+  </set>
+  <set cascade="all" name="leads" table="opportunity_lead">   
+     <key column="opportunity_id" />   
+     <many-to-many class="com.gcrm.domain.Lead"  column="lead_id" />
+  </set> 
+  <set cascade="all" name="documents" table="opportunity_document">   
+     <key column="opportunity_id" />   
+     <many-to-many class="com.gcrm.domain.Document"  column="document_id" />
+  </set>        			     			    
+ </class>
+</hibernate-mapping>

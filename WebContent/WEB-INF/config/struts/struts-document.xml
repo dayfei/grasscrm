@@ -1,0 +1,94 @@
+﻿<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+     <package namespace="/jsp/crm" name="document" extends="default">
+      	<action name="listDocument" class="listDocumentAction" method="list">
+    	  <result name="success" type="json"></result>
+        </action>
+
+    	<action name="listDocumentPage">
+    	  <result type="redirect">/jsp/crm/listDocument.jsp</result>
+        </action>
+              
+    	<action name="selectDocument" class="listDocumentAction" method="select">
+    	  <result type="redirect">/jsp/crm/listDocument.jsp</result>
+        </action>
+        
+    	<action name="unselectDocument" class="listDocumentAction" method="unselect">
+    	  <result type="redirect">/jsp/crm/listDocument.jsp</result>
+        </action>
+                
+    	<action name="selectDocumentPage" class="listDocumentAction" method="selectPage">
+    	  <result>/jsp/crm/selectDocument.jsp</result>
+        </action>              
+       
+      	<action name="filterDocumentAccount" class="listDocumentAction" method="filterDocumentAccount">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterDocumentAccountPage" class="listDocumentAction" method="filterPage">
+    	  <result>/jsp/crm/filterDocumentAccount.jsp</result>
+        </action>        
+                
+      	<action name="filterDocumentContact" class="listDocumentAction" method="filterDocumentContact">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterDocumentContactPage" class="listDocumentAction" method="filterPage">
+    	  <result>/jsp/crm/filterDocumentContact.jsp</result>
+        </action> 
+        
+      	<action name="filterDocumentOpportunity" class="listDocumentAction" method="filterDocumentOpportunity">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterDocumentOpportunityPage" class="listDocumentAction" method="filterPage">
+    	  <result>/jsp/crm/filterDocumentOpportunity.jsp</result>
+        </action> 
+        
+      	<action name="filterDocumentCase" class="listDocumentAction" method="filterDocumentCase">
+    	  <result name="success" type="json"></result>
+        </action>
+                        
+    	<action name="filterDocumentCasePage" class="listDocumentAction" method="filterPage">
+    	  <result>/jsp/crm/filterDocumentCase.jsp</result>
+        </action>                
+                        
+         <action name="copyDocument" class="listDocumentAction" method="copy">
+        	<result name="input">/jsp/crm/listDocument.jsp</result>
+			<result>/jsp/crm/listDocument.jsp</result>            	  
+        </action>
+                                
+        <action name="editDocument" class="editDocumentAction" method="get">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+			<result>/jsp/crm/editDocument.jsp</result>
+        </action>
+                        
+        <action name="saveDocument" class="editDocumentAction" method="save">
+			<interceptor-ref name="paramsPrepareParamsStack" /> 
+			<interceptor-ref name="prepare"/>
+   			<interceptor-ref name="defaultStack"/>
+            <result name="input">/jsp/crm/editDocument.jsp</result>          
+    	  <result type="redirect">/jsp/crm/listDocument.jsp</result>
+        </action>
+                
+        <action name="deleteDocument" class="listDocumentAction" method="delete">
+			<result type="redirect">/jsp/crm/listDocument.jsp</result>
+        </action>  
+        
+         <action name="downloadDocument" class="editDocumentAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="stream">
+                <param name="contentType">APPLICATION/OCTET-STREAM</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>            	  
+        </action>        
+  </package>      
+    
+</struts>
