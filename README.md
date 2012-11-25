@@ -26,7 +26,7 @@ database is installed in other server, you can change the value of url here.
        LC_CTYPE = 'English, United States'
        CONNECTION LIMIT = -1;
    
-    b. Switch current database to grass, then execute the sql script in Grass/sql/InitializeData.sql
+   b. Switch current database to grass, then execute the sql script in Grass/sql/InitializeData.sql
    
  (7)In eclipse, go to Grass project, execute "ant deploy" to deploy project to jboss server, then start jboss server.
  (8)In browser, input URL:localhost:8080/grass/jsp/login.jsp, the default user name is "admin", password is empty, then you can login the Grass CRM system.
